@@ -30,6 +30,15 @@ This project is built using:
 
 ---
 
+## 🔗 Live Demo
+
+👉 [Click here to view the live site](https://task-reaper-ten.vercel.app)
+
+> *CyberLordSY*
+
+
+---
+
 ## 🚀 Getting Started
 
 Follow these instructions to run the app locally:
