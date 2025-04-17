@@ -112,7 +112,7 @@ function App() {
           </select>
         </div>
 
-        <h2 className='text-lg font-bold mb-3'>Your Todo</h2>
+        <h2 className='text-lg font-bold mb-3'>Your Todos</h2>
         <div className="todos flex flex-col overflow-auto gap-4 h-[45vh]">
           {filteredTodos.length === 0 ? (
             <div className="text-center text-gray-500 text-sm mt-5">
