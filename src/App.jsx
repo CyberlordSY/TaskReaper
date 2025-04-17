@@ -10,15 +10,15 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [filter, setFilter] = useState("pending");
 
-  
+
   useEffect(() => {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
       setTodos(JSON.parse(storedTodos));
     }
-  }, []); 
+  }, []);
 
-  
+
   useEffect(() => {
     if (todos.length > 0) {
       localStorage.setItem("todos", JSON.stringify(todos));
@@ -114,42 +114,48 @@ function App() {
 
         <h2 className='text-lg font-bold mb-3'>Your Todo</h2>
         <div className="todos flex flex-col overflow-auto gap-4 h-[45vh]">
-
-          {filteredTodos.map(item => (
-            <div
-              key={item.id}
-              className="todo flex justify-between items-center bg-white p-3 rounded-lg shadow-md"
-            >
-              <div className="flex items-center gap-3">
-                <input
-                  onChange={handleCheckbox}
-                  type="checkbox"
-                  checked={item.isCompleted}
-                  name={item.id}
-                  className="w-4 h-4"
-                />
-                <span className={`text-sm ${item.isCompleted ? "line-through text-gray-400" : "text-gray-800"}`}>
-                  {item.todo}
-                </span>
-              </div>
-              <div className="flex gap-2 text-white">
-                <button
-                  onClick={() => handleEdit(item.id)}
-                  className='cursor-pointer bg-blue-600 hover:bg-blue-800 p-2 rounded-full'
-                  disabled={editingId !== null && editingId !== item.id}
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className='cursor-pointer bg-red-600 hover:bg-red-800 p-2 rounded-full'
-                >
-                  <FaTrash />
-                </button>
-              </div>
+          {filteredTodos.length === 0 ? (
+            <div className="text-center text-gray-500 text-sm mt-5">
+              No record found.
             </div>
-          ))}
+          ) : (
+            filteredTodos.map(item => (
+              <div
+                key={item.id}
+                className="todo flex justify-between items-center bg-white p-3 rounded-lg shadow-md"
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    onChange={handleCheckbox}
+                    type="checkbox"
+                    checked={item.isCompleted}
+                    name={item.id}
+                    className="w-4 h-4"
+                  />
+                  <span className={`text-sm ${item.isCompleted ? "line-through text-gray-400" : "text-gray-800"}`}>
+                    {item.todo}
+                  </span>
+                </div>
+                <div className="flex gap-2 text-white">
+                  <button
+                    onClick={() => handleEdit(item.id)}
+                    className='cursor-pointer bg-blue-600 hover:bg-blue-800 p-2 rounded-full'
+                    disabled={editingId !== null && editingId !== item.id}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className='cursor-pointer bg-red-600 hover:bg-red-800 p-2 rounded-full'
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
+
       </div>
     </>
   );
