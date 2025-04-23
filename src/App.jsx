@@ -10,32 +10,35 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [filter, setFilter] = useState("pending");
 
-
+  // Load from localStorage once on component mount
   useEffect(() => {
-    const storedTodos = localStorage.getItem("todos");
-    if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
+    const stored = localStorage.getItem("todos");
+    if (stored) {
+      setTodos(JSON.parse(stored));
     }
   }, []);
 
-
-  useEffect(() => {
-    if (todos.length > 0) {
-      localStorage.setItem("todos", JSON.stringify(todos));
-    }
-  }, [todos]);
+  // Utility to save to localStorage
+  const saveToLocal = (updatedTodos) => {
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
 
   const handleAdd = () => {
     if (todo.trim().length < 3) return;
+
+    let updatedTodos;
+
     if (editingId) {
-      const updated = todos.map(item =>
+      updatedTodos = todos.map(item =>
         item.id === editingId ? { ...item, todo } : item
       );
-      setTodos(updated);
       setEditingId(null);
     } else {
-      setTodos([...todos, { id: uuidv4(), todo, isCompleted: false }]);
+      updatedTodos = [...todos, { id: uuidv4(), todo, isCompleted: false }];
     }
+
+    setTodos(updatedTodos);
+    saveToLocal(updatedTodos);
     setTodo("");
   };
 
@@ -47,19 +50,25 @@ function App() {
       item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
     );
     setTodos(updatedTodos);
+    saveToLocal(updatedTodos);
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this todo?")) {
-      const filteredTodos = todos.filter(item => item.id !== id);
-      setTodos(filteredTodos);
+      const updatedTodos = todos.filter(item => item.id !== id);
+      setTodos(updatedTodos);
+      saveToLocal(updatedTodos);
+      if (editingId === id) {
+        setEditingId(null);
+        setTodo("");
+      }
     }
   };
 
   const handleEdit = (id) => {
-    const selectedTodo = todos.find(item => item.id === id);
-    if (selectedTodo && !editingId) {
-      setTodo(selectedTodo.todo);
+    const selected = todos.find(item => item.id === id);
+    if (selected && editingId === null) {
+      setTodo(selected.todo);
       setEditingId(id);
     }
   };
@@ -71,8 +80,7 @@ function App() {
   const filteredTodos = todos.filter(todo => {
     if (filter === "all") return true;
     if (filter === "completed") return todo.isCompleted;
-    if (filter === "pending") return !todo.isCompleted;
-    return true;
+    return !todo.isCompleted;
   });
 
   return (
@@ -155,7 +163,6 @@ function App() {
             ))
           )}
         </div>
-
       </div>
     </>
   );
