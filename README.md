@@ -45,7 +45,7 @@ Follow these instructions to run the app locally:
 
 ### Clone the repository
 
-```bash
+```
 git clone https://github.com/CyberlordSY/TaskReaper.git
 cd TaskReaper
 npm install
