@@ -26,7 +26,7 @@ This project is built using:
 - 🔍 Filter by All, Completed, or Pending
 - 💾 Data stored in browser using localStorage
 - ⌨️ Keyboard support (Enter to add)
-- 📱 Fully responsive layout with mobile-first design
+- 📱 Fully responsive layout with mobile
 
 ---
 
